@@ -4,7 +4,7 @@
 #USAGE
 
 #AUTHORS
-[WemyJu] (https://github.com/WemyJu)
+[WemyJu] (https://github.com/WemyJu)  
 [Lee-W] (https://github.com/Lee-W/)
 
 #LICENSE
