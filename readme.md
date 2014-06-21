@@ -1,5 +1,4 @@
 #TOC_proj
-#DESCRIPTION
 
 #USAGE
 
