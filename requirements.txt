@@ -1,1 +1,4 @@
 requests==2.2.1
+pandas==0.14.0
+openpyxl==1.8.6
+# note that openpyxl whose version is not in between 1.6.1 and 2.0.0 would be incompatible to pandas
