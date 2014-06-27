@@ -18,7 +18,6 @@ class AddressClassifier():
 
                 if secondLevel:
                     secondLevel = secondLevel[0][3:]
-                    print (firstLevel, secondLevel)
 
                     if firstLevel not in self.classifiedData:
                         self.classifiedData[firstLevel] = {secondLevel: [datum]}
