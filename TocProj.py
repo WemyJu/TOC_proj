@@ -1,8 +1,7 @@
-import re
-from operator import itemgetter
+# from operator import itemgetter
 from lib.DataGarageAPI import DataGarageAPI
-from lib.myStatistics import MyStatistics
-import json
+# from lib.myStatistics import MyStatistics
+from lib.addressClassifier import AddressClassifier
 
 Block = {}
 
@@ -13,3 +12,7 @@ if __name__ == '__main__':
          .setSelector([['都市土地使用分區', '=', '住']])
 
     data = dgAPI.getFilteredData()
+
+    ac = AddressClassifier()
+    ac.classify(data)
+    print (ac.getClassifiedData())
