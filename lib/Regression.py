@@ -1,6 +1,6 @@
 from numpy import *
 
-class DataForStat():
+class Regression():
 	def __init__(self):
 		self.statData = array([])
 
