@@ -48,6 +48,9 @@ python3 setup.py build
 sudo python3 setup.py install
 ```
 
+#PRESENTATION
+[slideshare] (http://www.slideshare.net/ssuser5e1963/toc-proj-forslideshare)
+
 #AUTHORS
 [WemyJu] (https://github.com/WemyJu)  
 [Lee-W] (https://github.com/Lee-W/)
