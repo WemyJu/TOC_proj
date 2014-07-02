@@ -20,18 +20,14 @@ if __name__ == '__main__':
     ac = AddressClassifier()
     ac.classify(data)
     rawData = ac.getClassifiedData()
+    reg = Regression()
+    reg.quantize(rawData)
 
-    for city in rawData:
-        for block in rawData[city]:
-            dfs = Regression()
-            for record in rawData[city][block]:
-                dfs.quantize(record, city)
+    parameters = reg.getTotalParams()
+    for city in parameters:
+        for block in parameters[city]:
             print(city, block)
-            if dfs.countRegression():
-                parameters = dfs.getParameters()
-                #print("  y = ", parameters[0], end="")
-                #for i in range(1, 13, 1):
-                #    print(" +", parameters[i], ("x"+str(i)), end = "")
-                print("\n")
-            else:
-                print("  The record of data not sufficient enough to get regression.\n")
+            print("  y = ", parameters[city][block][0], end="")
+            for i in range(1, 13, 1):
+                print(" +", parameters[city][block][i], ("x"+str(i)), end = "")
+            print("\n")
