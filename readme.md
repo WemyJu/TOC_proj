@@ -2,17 +2,27 @@
 
 #USAGE
 
-#REQUIREMENT
-python3 and the libraries specified in requirements.txt  
+#PREREQEUISITES
+python3
+libraries : numpy, statsmodels  
+You sholud install some other package before install statsmodels.  
+All the instructions are below.
 
-There are some dependency problem.  
-You should install gfortran and libatlas-base-dev first, then you can install libraries through
+##Dependency Problem
+###For mac user
 ```shell
+brew install gfortran
 pip3 install -r requirements.txt
 ```
+###For Ubuntu user
+```shell
+sudo apt-get install libatlas-base-dev gfortran
+sudo pip3 install -r requirements.txt
+```
 * note that openpyxl whose version is not in between 1.6.1 and 2.0.0 would be incompatible to some of the other libraries.
-  
-If statsmodels still cannot be installed, try 
+
+##Get the lastest statsmodels
+```shell
 ```shell
 cd tmp
 git clone https://github.com/statsmodels/statsmodels.git 
