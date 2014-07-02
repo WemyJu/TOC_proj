@@ -31,7 +31,7 @@ class Regression():
     def quantize(self, rawRecord, city):
         const = 1
         year = int(rawRecord['交易年月']/100)
-        if year < 99:
+        if year < 99 or year > 103:
             return
         season = int(rawRecord['交易年月']%100/4+1)
         season = str(year)+"Q"+str(season)
