@@ -2,6 +2,7 @@ from numpy import *
 import statsmodels.api as sm
 import os
 import sys
+import re
 
 class Regression():
     def __init__(self):
@@ -29,13 +30,13 @@ class Regression():
         f.close()
 
     def quantize(self, rawData):
-        self.statData.update({'others':{'others':[]}})
-        self.totalPrice.update({'others':{'others':[]}})
+        self.statData.update({'total':{'total':[]}})
+        self.totalPrice.update({'total':{'total':[]}})
         for city in rawData:
             self.statData.update({city:{}})
             self.totalPrice.update({city:{}})
-            self.statData[city].update({'others':[]})
-            self.totalPrice[city].update({'others':[]})
+            self.statData[city].update({city:[]})
+            self.totalPrice[city].update({city:[]})
             for block in rawData[city]:
                 self.statData[city].update({block:[]})
                 self.totalPrice[city].update({block:[]})
@@ -45,11 +46,11 @@ class Regression():
                     
                     if len(X) > 0:
                         self.statData[city][block] = self.addArray(self.statData[city][block], X, vstack)
-                        self.statData[city]['others'] = self.addArray(self.statData[city]['others'], X, vstack)
-                        self.statData['others']['others'] = self.addArray(self.statData['others']['others'], X, vstack)
+                        self.statData[city][city] = self.addArray(self.statData[city][city], X, vstack)
+                        self.statData['total']['total'] = self.addArray(self.statData['total']['total'], X, vstack)
                         self.totalPrice[city][block] = self.addArray(self.totalPrice[city][block], Y, hstack)
-                        self.totalPrice[city]['others'] = self.addArray(self.totalPrice[city]['others'], Y, hstack)
-                        self.totalPrice['others']['others'] = self.addArray(self.totalPrice['others']['others'], Y, hstack)
+                        self.totalPrice[city][city] = self.addArray(self.totalPrice[city][city], Y, hstack)
+                        self.totalPrice['total']['total'] = self.addArray(self.totalPrice['total']['total'], Y, hstack)
 
         self.countRegression()
 
@@ -76,12 +77,12 @@ class Regression():
         else:
             houseAge = 10312 - rawRecord['交易年月']
             x6 = int(houseAge/100*12) + int(houseAge % 100)
-        x7 = (rawRecord['建物型態'] == '住宅大樓(11層含以上有電梯)')
-        x8 = (rawRecord['建物型態'] == '套房(1房1廳1衛)')
-        x9 = (rawRecord['建物型態'] == '華廈(10層含以下有電梯)')
-        x10 = (rawRecord['建物型態'] == '公寓(5樓含以下無電梯)')
-        x11 = (rawRecord['建物型態'] == '透天厝')
-        x12 = (rawRecord['建物型態'] == '店面(店鋪)')
+        x7 = (rawRecord['建物型態'].find('住宅大樓') > -1)
+        x8 = (rawRecord['建物型態'].find('套房') > -1)
+        x9 = (rawRecord['建物型態'].find('華廈') > -1)
+        x10 = (rawRecord['建物型態'].find('公寓') > -1)
+        x11 = (rawRecord['建物型態'].find('透天厝') > -1)
+        x12 = (rawRecord['建物型態'].find('店面') > -1)
                 
         return [const, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12]
             
@@ -103,10 +104,18 @@ class Regression():
                     results = model.fit()
                     self.resultSummary[city][block] = results.summary()
                     self.parameters[city][block] = results.params
-
-#direct = 'regression_output/report/'+city+block
-#                   if not os.path.exists(direct):
-#                       os.makedirs(direct)
+                    
+                    if city == 'total':
+                        direct = 'regression_output/report/'
+                    elif block == city:
+                        direct = 'regression_output/report/'+city
+                    else:
+                        direct = 'regression_output/report/'+city+'/'+block
+                    
+                    if not os.path.exists(direct):                     os.makedirs(direct)
+                    f = open(direct+'/'+block+'.txt', 'w')
+                    f.write(str(results.summary()))
+                    f.close()
 
     def getTotalParams(self):
         return self.parameters
@@ -116,9 +125,9 @@ class Regression():
             if block in self.parameters[city]:
                 return self.parameters[city][block]
             else:
-                return self.parameters[city]['others']
+                return self.parameters[city][city]
         else:
-            return self.parameters['others']['others']
+            return self.parameters['total']['total']
 
     def getRrsultSummary(self, city, block):
         return self.resultSummary[city][block]
