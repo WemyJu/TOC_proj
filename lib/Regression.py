@@ -28,9 +28,13 @@ class Regression():
         f.close()
 
     def quantize(self, rawData):
+        self.statData.update({'others':{'others':[]}})
+        self.totalPrice.update({'others':{'others':[]}})
         for city in rawData:
             self.statData.update({city:{}})
             self.totalPrice.update({city:{}})
+            self.statData[city].update({'others':[]})
+            self.totalPrice[city].update({'others':[]})
             for block in rawData[city]:
                 self.statData[city].update({block:[]})
                 self.totalPrice[city].update({block:[]})
@@ -64,8 +68,18 @@ class Regression():
                     x11 = (rawRecord['建物型態'] == '透天厝')
                     x12 = (rawRecord['建物型態'] == '店面(店鋪)')
                     y = rawRecord['總價元']
-
-                    if len(self.statData[city][block]):
+                    
+                    X = [const, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12]
+                    Y = [y]
+                    
+                    self.statData[city][block] = self.addArray(self.statData[city][block], X, vstack)
+                    self.statData[city]['others'] = self.addArray(self.statData[city]['others'], X, vstack)
+                    self.statData['others']['others'] = self.addArray(self.statData['others']['others'], X, vstack)
+                    self.totalPrice[city][block] = self.addArray(self.totalPrice[city][block], Y, hstack)
+                    self.totalPrice[city]['others'] = self.addArray(self.totalPrice[city]['others'], Y, hstack)
+                    self.totalPrice['others']['others'] = self.addArray(self.totalPrice['others']['others'], Y, hstack)
+                    
+                    '''if len(self.statData[city][block]):
                         self.statData[city][block] = vstack((self.statData[city][block], [const, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12]))
                     else:
                         self.statData[city][block] = array([const, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12])
@@ -73,8 +87,14 @@ class Regression():
                     if len(self.totalPrice[city][block]):
                         self.totalPrice[city][block] = hstack((self.totalPrice[city][block], [y]))
                     else:
-                            self.totalPrice[city][block] = array([y])
+                            self.totalPrice[city][block] = array([y])'''
         self.countRegression()
+
+    def addArray(self, ori_array, new_array, method):
+        if len(ori_array):
+            return method((ori_array, new_array))
+        else:
+            return new_array
 
     def countRegression(self):
         for city in self.statData:
@@ -93,7 +113,13 @@ class Regression():
         return self.parameters
 
     def getParameters(self, city, block):
-        return self.parameters[city][block]
+        if city in self.parameters:
+            if block in self.parameters[city]:
+                return self.parameters[city][block]
+            else:
+                return self.parameters[city]['others']
+        else:
+            return self.parameters['others']['others']
 
     def getRrsultSummary(self, city, block):
         return self.resultSummary[city][block]
