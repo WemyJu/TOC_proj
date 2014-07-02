@@ -25,12 +25,13 @@ if __name__ == '__main__':
         for block in rawData[city]:
             dfs = Regression()
             for record in rawData[city][block]:
-                dfs.quantize(record)
+                dfs.quantize(record, city)
             print(city, block)
-        if dfs.countRegression():
-            parameters = dfs.getParameters()
-            for i in range(1, 12, 1):
-                print((" + ", parameters[i], "x", str(i)))
-            print("\n")
-        else:
-            print("  The records of data are too insufficient to get regression.\n")
+            if dfs.countRegression():
+                parameters = dfs.getParameters()
+                #print("  y = ", parameters[0], end="")
+                #for i in range(1, 13, 1):
+                #    print(" +", parameters[i], ("x"+str(i)), end = "")
+                print("\n")
+            else:
+                print("  The record of data not sufficient enough to get regression.\n")
