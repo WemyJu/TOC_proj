@@ -97,10 +97,12 @@ class userInterface():
         path = self.defaultPath + "/report/"
         city = self.quantizedVars["縣市"]
         region = self.quantizedVars["鄉鎮市區"]
+        print("city : ", city)
+        print("region : ", region)
 
-        if os.path.isfile(path + city):
+        if os.path.exists(path + city):
             path += city + "/"
-            if os.path.isfile(path + region):
+            if os.path.exists(path + region):
                 path += region + "/" + region + ".txt"
             else:
                 path += city + ".txt"
