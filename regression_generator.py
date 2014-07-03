@@ -40,11 +40,10 @@ if __name__ == '__main__':
     ac.classify(data)
     rawData = ac.getClassifiedData()
 
+    print ("regression_generator start")
     reg = Regression()
     reg.quantize(rawData)
     parameters = reg.getTotalParams()
 
-    print ("regression_generator start")
     outputRegressions(parameters)
     print ("regression_generator finish")
-    outputRegressions(parameters)
