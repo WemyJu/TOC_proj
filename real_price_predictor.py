@@ -18,8 +18,8 @@ def readRegressions(path="regression_output/.regressions"):
 
 
 def userInput():
-    inputVars = {}
-    inputVars['土地區段位置或建物區門牌'] = input('土地區段位置或建物區門牌 : ')
+    inputVars = dict()
+    inputVars['縣市'] = input('縣市')
     inputVars['鄉鎮市區'] = input('鄉鎮市區 : ')
     inputVars['有無管理組織'] = input('有無管理組織 : ')
     inputVars['建物型態'] = input('建物型態 : ')
@@ -32,23 +32,23 @@ def userInput():
 
 
 def quantize(data):
-    city = data['土地區段位置或建物區門牌'][:3]
+    city = data['縣市'][:3]
     region = data['鄉鎮市區']
 
     reg = Regression()
-    result = list()
-    result.append(city)
-    result.append(region)
-    result.extend(reg.quantizeForRec(data, city))
+    result = dict()
+    result['縣市'] = city
+    result['鄉鎮市區'] = region
+    result['variables'] = numpy.array(reg.quantizeForRec(data, city))
     return result
 
 
 def estimate(var, regs):
-    city = var[0]
-    region = var[1]
+    city = var['縣市']
+    region = var['鄉鎮市區']
 
-    reg = regs[city][region]
-    y = numpy.dot(numpy.array(var[2:]), reg)
+    coefficient = regs[city][region]
+    y = numpy.dot(var["variables"], coefficient)
     return y
 
 
