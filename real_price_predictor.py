@@ -99,6 +99,20 @@ def predict(var, regs):
     return y
 
 
+def outputReport(city, region):
+    path = "./regression_output/report/"
+    if os.path.isfile(path + city):
+        path += city + "/"
+        if os.path.isfile(path + region):
+            path += region + "/" + region + ".txt"
+        else:
+            path += city + ".txt"
+    else:
+        path += "total.txt"
+    f = open(path)
+    print (f.read())
+    f.close()
+
 if __name__ == '__main__':
     if yesNoQuery("Input from file? [y/n]"):
         path = input("Please input path of your file: ")
@@ -110,19 +124,7 @@ if __name__ == '__main__':
 
     regressions = readRegressions()
     predictedPrice = predict(quantizedVars, regressions)
-    print ("The predicted price is : ", predictedPrice)
+    print ("The predicted price is : %f\n" % predictedPrice)
 
     if yesNoQuery("Output regression report? [y/n]"):
-        path = "./regression_output/report/"
-        if os.path.isfile(path + quantizedVars["縣市"]):
-            path += quantizedVars["縣市"] + "/"
-            if os.path.isfile(path + quantizedVars["鄉鎮市區"]):
-                path += quantizedVars["鄉鎮市區"] + "/" + quantizedVars["鄉鎮市區"] + ".txt"
-            else:
-                path += quantizedVars["縣市"] + ".txt"
-        else:
-            path += "total.txt"
-
-        f = open(path)
-        print (f.read())
-        f.close()
+        outputReport(quantizedVars['縣市'], quantizedVars['鄉鎮市區'])
