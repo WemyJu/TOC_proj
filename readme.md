@@ -1,7 +1,7 @@
 #Real price predictor
 
 #USAGE
-There are two main parts in this project, regression generator and real price estimator.
+There are two main parts in this project, regression generator and real price predictor.
 
 ##Regression Generator
 ```python
@@ -10,12 +10,12 @@ python3 regression_generator.py [dataID]
 You can generate regression information and find the result in folder regression_resutlt.  
 
 The argument dataID is optional. Its default value is 5365dee31bc6e9d9463a0057.  
-If you want to use your own data, you have to enter the ID that DataGarage generate.  
+If you want to use your own data, you have to enter the ID that DataGarage generated.  
 Note that your data must have the same format as default data's.  
 
 ##Real price estimator
 ```python
-python3 real_price_estimator.py
+python3 real_price_predictor.py
 ```
 Enter the value as interactive shell ask, and you'll get the predicted price.  
 If the regression functions have not been genterate, it will automatically generate through default data.
@@ -37,7 +37,7 @@ pip3 install -r requirements.txt
 sudo apt-get install libatlas-base-dev gfortran
 sudo pip3 install -r requirements.txt
 ```
-* note that openpyxl whose version is not in between 1.6.1 and 2.0.0 would be incompatible to some of the other libraries. (This is handled through requirements.txt)
+* note that openpyxl whose version is not in between 1.6.1 and 2.0.0 would be incompatible to some of the other libraries. (This is handled int requirements.txt)
 
 ##Get the lastest statsmodels
 ```shell
@@ -49,7 +49,7 @@ sudo python3 setup.py install
 ```
 
 #PRESENTATION
-[slideshare] (http://www.slideshare.net/ssuser5e1963/toc-proj-forslideshare)
+[Slideshare] (http://www.slideshare.net/ssuser5e1963/toc-proj-forslideshare)
 
 #AUTHORS
 [WemyJu] (https://github.com/WemyJu)  
