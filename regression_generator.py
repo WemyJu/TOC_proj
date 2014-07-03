@@ -44,11 +44,7 @@ if __name__ == '__main__':
     reg.quantize(rawData)
     parameters = reg.getTotalParams()
 
+    print ("regression_generator start")
     outputRegressions(parameters)
-    # for city in parameters:
-    #     for block in parameters[city]:
-    #         print(city, block)
-    #         print("  y = ", parameters[city][block][0], end="")
-    #         for i in range(1, 13, 1):
-    #             print(" +", parameters[city][block][i], ("x"+str(i)), end = "")
-    #         print("\n")
+    print ("regression_generator finish")
+    outputRegressions(parameters)
