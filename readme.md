@@ -13,7 +13,7 @@ The argument dataID is optional. Its default value is 5365dee31bc6e9d9463a0057.
 If you want to use your own data, you have to enter the ID that DataGarage generated.  
 Note that your data must have the same format as default data's.  
 
-##Real price estimator
+##Real price predictor
 ```python
 python3 real_price_predictor.py
 ```
