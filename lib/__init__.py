@@ -1,3 +1,3 @@
 from .DataGarageAPI import DataGarageAPI
 from .addressClassifier import AddressClassifier
-from .myStatistics import MyStatistics
+from .Regression import Regression
