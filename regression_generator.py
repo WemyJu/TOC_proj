@@ -47,4 +47,3 @@ if __name__ == '__main__':
     print ("regression_generator start")
     outputRegressions(parameters)
     print ("regression_generator finish")
-    outputRegressions(parameters)

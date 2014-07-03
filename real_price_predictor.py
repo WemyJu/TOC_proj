@@ -77,6 +77,7 @@ def fileInput(path):
         sys.exit(0)
     return inputVars
 
+
 def quantize(data):
     city = data['縣市'][:3]
     region = data['鄉鎮市區']
@@ -110,3 +111,18 @@ if __name__ == '__main__':
     regressions = readRegressions()
     predictedPrice = predict(quantizedVars, regressions)
     print ("The predicted price is : ", predictedPrice)
+
+    if yesNoQuery("Output regression report? [y/n]"):
+        path = "./regression_output/report/"
+        if os.path.isfile(path + quantizedVars["縣市"]):
+            path += quantizedVars["縣市"] + "/"
+            if os.path.isfile(path + quantizedVars["鄉鎮市區"]):
+                path += quantizedVars["鄉鎮市區"] + "/" + quantizedVars["鄉鎮市區"] + ".txt"
+            else:
+                path += quantizedVars["縣市"] + ".txt"
+        else:
+            path += "total.txt"
+
+        f = open(path)
+        print (f.read())
+        f.close()
