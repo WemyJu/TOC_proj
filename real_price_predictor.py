@@ -1,8 +1,16 @@
 import os
+import sys
 import subprocess
 import pickle
 import numpy
+from distutils.util import strtobool
 from lib.Regression import Regression
+
+
+inputTitle = ['縣市', '鄉鎮市區',
+              '有無管理組織', '建物型態',
+              '土地移轉總面積平方公尺', '車位移轉總面積平方公尺', '建物移轉總面積平方公尺',
+              '建築完成年月', '交易年月']
 
 
 def readRegressions(path="regression_output/.regressions"):
@@ -17,19 +25,57 @@ def readRegressions(path="regression_output/.regressions"):
     return regressions
 
 
+def yesNoQuery(question):
+    print(question, end = "\t")
+    while True:
+        try:
+            return strtobool(input().lower())
+        except ValueError:
+            print ("Please repond with y or n")
+
+
+def isfloat(inStr):
+    try:
+        float(inStr)
+        return True
+    except ValueError:
+        return False
+
+
+def handleInputType(inStr):
+    if inStr.isnumeric():
+        inStr = int(inStr)
+    elif isfloat(inStr):
+        inStr = float(inStr)
+    return inStr
+
+
 def userInput():
     inputVars = dict()
-    inputVars['縣市'] = input('縣市')
-    inputVars['鄉鎮市區'] = input('鄉鎮市區 : ')
-    inputVars['有無管理組織'] = input('有無管理組織 : ')
-    inputVars['建物型態'] = input('建物型態 : ')
-    inputVars['土地移轉總面積平方公尺'] = float(input('土地移轉總面積平方公尺 : '))
-    inputVars['車位移轉總面積平方公尺'] = float(input('車位移轉總面積平方公尺 : '))
-    inputVars['建物移轉總面積平方公尺'] = float(input('建物移轉總面積平方公尺 : '))
-    inputVars['建築完成年月'] = int(input('建築完成日期 : '))
-    inputVars['交易年月'] = int(input('交易年月 : '))
+
+    global inputTitle
+    for title in inputTitle:
+        inputVars[title] = handleInputType(input(title + ":"))
     return inputVars
 
+
+def fileInput(path):
+    inputVars = dict()
+
+    global inputTitle
+    try:
+        f = open(path, "r")
+
+        for line, title in zip(f.read().splitlines(), inputTitle):
+            inputVars[title] = handleInputType(line)
+
+        if len(inputVars) != len(inputTitle):
+            print ("Your input file contains wrong parameter numbers!!!")
+            sys.exit(0)
+    except FileNotFoundError:
+        print ("Your input file does not exist!!!")
+        sys.exit(0)
+    return inputVars
 
 def quantize(data):
     city = data['縣市'][:3]
@@ -43,7 +89,7 @@ def quantize(data):
     return result
 
 
-def estimate(var, regs):
+def predict(var, regs):
     city = var['縣市']
     region = var['鄉鎮市區']
 
@@ -53,9 +99,14 @@ def estimate(var, regs):
 
 
 if __name__ == '__main__':
-    inputVars = userInput()
+    if yesNoQuery("Input from file? [y/n]"):
+        path = input("Please input path of your file: ")
+        inputVars = fileInput(path)
+    else:
+        inputVars = userInput()
+
     quantizedVars = quantize(inputVars)
 
     regressions = readRegressions()
-    predictedPrice = estimate(quantizedVars, regressions)
+    predictedPrice = predict(quantizedVars, regressions)
     print ("The predicted price is : ", predictedPrice)
