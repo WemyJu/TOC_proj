@@ -1,9 +1,9 @@
-#Real price predictor
+# Real price predictor
 
-#USAGE
+# USAGE
 There are two main parts in this project, regression generator and real price predictor.
 
-##Regression Generator
+## Regression Generator
 ```python
 python3 regression_generator.py [dataID]
 ```
@@ -13,33 +13,33 @@ The argument dataID is optional. Its default value is 5365dee31bc6e9d9463a0057.
 If you want to use your own data, you have to enter the ID that DataGarage generated.  
 Note that your data must have the same format as default data's.  
 
-##Real price predictor
+## Real price predictor
 ```python
 python3 real_price_predictor.py
 ```
 Enter the value as interactive shell ask, and you'll get the predicted price.  
 If the regression functions have not been genterate, it will automatically generate through default data.
 
-#PREREQEUISITES
+# PREREQEUISITES
 python3
 libraries : numpy, statsmodels  
 You sholud install some other packages before install statsmodels.  
 All the instructions are below.
 
-##Dependency Problem
-###For mac user
+## Dependency Problem
+### For mac user
 ```shell
 brew install gfortran
 pip3 install -r requirements.txt
 ```
-###For Ubuntu user
+### For Ubuntu user
 ```shell
 sudo apt-get install libatlas-base-dev gfortran
 sudo pip3 install -r requirements.txt
 ```
 * note that openpyxl whose version is not in between 1.6.1 and 2.0.0 would be incompatible to some of the other libraries. (This is handled int requirements.txt)
 
-##Get the lastest statsmodels
+## Get the lastest statsmodels
 ```shell
 cd tmp
 git clone https://github.com/statsmodels/statsmodels.git 
@@ -48,12 +48,12 @@ python3 setup.py build
 sudo python3 setup.py install
 ```
 
-#PRESENTATION
+# PRESENTATION
 [Slideshare] (http://www.slideshare.net/ssuser5e1963/toc-proj-forslideshare)
 
-#AUTHORS
+# AUTHORS
 [WemyJu] (https://github.com/WemyJu)  
 [Lee-W] (https://github.com/Lee-W/)
 
-#LICENSE
+# LICENSE
 MIT
